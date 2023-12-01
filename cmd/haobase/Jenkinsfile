@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    environment {
+        imageTag = "dev.cloud.csg.com/v2/haobase:lastest"
+    }
+    stages {
+        stage('Build and Push Docker Image') {
+            steps {
+                dir('cmd/haobase') {
+                    script {
+                        sh "docker build -t ${imageTag} ."
+                    }
+                }
+                
+                script {
+                    def imageTag = "dev.cloud.csg.com/v2/haobase:lastest"
+                    
+                    // sh "docker tag my-image ${imageTag}"
+                    sh "docker push ${imageTag}"
+                }
+            }
+        }
+    }
+}
